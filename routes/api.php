@@ -16,3 +16,18 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// List all league table
+Route::get('leagueTable', 'FootballMatchController@index');
+
+// Filter league table
+
+Route::get('leagueTable/{group}', 'FootballMatchController@show');
+
+// Create new match/es
+
+Route::post('footballMatch', 'FootballMatchController@store');
+
+// Update match
+
+Route::put('footballMatch/{id}', 'FootballMatchController@update');

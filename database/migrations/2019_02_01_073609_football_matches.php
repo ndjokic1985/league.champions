@@ -33,6 +33,6 @@ class FootballMatches extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('football_matches');
     }
 }
