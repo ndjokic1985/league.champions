@@ -20,7 +20,9 @@ class FootballMatchService
     public function index()
     {
         $matches = $this->footballMatchRepository->all();
-        return $this->createLeagueTable($matches);
+        $table = $this->createLeagueTable($matches);
+        $this->sortData($table);
+        return $table;
     }
 
     private function createLeagueTable($matches)
@@ -35,20 +37,51 @@ class FootballMatchService
             $this->calculateGoalsAgainst($data, $match);
             $data[$match->group]['leagueTitle'] = $match->leagueTitle;
         }
-        $table = [];
+        $groups = [];
+        $tableLeague = [];
         foreach ($data as $groupName => &$group) {
-            $table['leagueTitle'] = $group['leagueTitle'];
-            $table['matchday'] = '';
-            $table['group'] = $groupName;
+            $groups['leagueTitle'] = $group['leagueTitle'];
+            $groups['matchday'] = '';
+            $groups['group'] = $groupName;
             foreach ($group as $teamName => &$team) {
-                $this->initZeroCategory($team);
-                $this->calculateGoalDifference($team);
-                $table['standing'][] = $data[$groupName][$teamName];
+                if (is_array($team)) {
+                    $this->initZeroCategory($team);
+                    $this->calculateGoalDifference($team);
+                    $groups['standing'][] = $data[$groupName][$teamName];
+                }
+            }
+            $tableLeague[] = $groups;
+        }
+        return $tableLeague;
+    }
+
+    private function sortData(&$table)
+    {
+        for ($i = 0; $i < count($table); $i++) {
+            for ($j = 0; $j < count($table[$i]['standing']) - 1; $j++) {
+                $maxIndex = $j;
+                for ($k = $j + 1; $k < count($table[$i]['standing']); $k++) {
+                    if ($table[$i]['standing'][$k]['points'] > $table[$i]['standing'][$maxIndex]['points']) {
+                        $maxIndex = $k;
+                    } elseif ($table[$i]['standing'][$k]['points'] == $table[$i]['standing'][$maxIndex]['points']) {
+                        if ($table[$i]['standing'][$k]['goals'] > $table[$i]['standing'][$maxIndex]['goals']) {
+                            $maxIndex = $k;
+                        } elseif ($table[$i]['standing'][$k]['goals'] == $table[$i]['standing'][$maxIndex]['goals']) {
+                            if ($table[$i]['standing'][$k]['goalDifference'] > $table[$i]['standing'][$maxIndex]['goalDifference']) {
+                                $maxIndex = $k;
+                            }
+                        }
+                    }
+                }
+                $temp = $table[$i]['standing'][$j];
+                $table[$i]['standing'][$j] = $table[$i]['standing'][$maxIndex];
+                $table[$i]['standing'][$maxIndex] = $temp;
+
             }
 
         }
-        return $table;
     }
+
 
     private function initZeroCategory(&$team)
     {

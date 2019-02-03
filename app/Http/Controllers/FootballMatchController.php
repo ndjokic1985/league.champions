@@ -37,7 +37,7 @@ class FootballMatchController extends Controller
     {
         $this->footballMatchService->create($request);
         $tableResults = $this->footballMatchService->index();
-        return FootballMatchResource::collection($tableResults);
+        return json_encode($tableResults);
     }
 
     /**
