@@ -20,12 +20,18 @@ class FootballMatchService
     public function index()
     {
         $matches = $this->footballMatchRepository->all();
-        $table = $this->createLeagueTable($matches);
-        $this->sortData($table);
+        $table = $this->getLeagueTable($matches);
         return $table;
     }
 
-    private function createLeagueTable($matches)
+    protected function getLeagueTable($matches)
+    {
+        $data = $this->prepareLeagueTable($matches);
+        return $this->createLeagueTable($data);
+
+    }
+
+    private function prepareLeagueTable($matches)
     {
         $data = [];
         foreach ($matches as $match) {
@@ -37,47 +43,58 @@ class FootballMatchService
             $this->calculateGoalsAgainst($data, $match);
             $data[$match->group]['leagueTitle'] = $match->leagueTitle;
         }
+        return $data;
+
+    }
+
+    private function createLeagueTable($data)
+    {
         $groups = [];
         $tableLeague = [];
-        foreach ($data as $groupName => &$group) {
+        $keys1 = array_keys($data);
+
+        for ($i = 0; $i < count($keys1); $i++) {
+            $keys2 = array_keys($data[$keys1[$i]]);
+            $group =& $data[$keys1[$i]];
             $groups['leagueTitle'] = $group['leagueTitle'];
-            $groups['matchday'] = '';
+            $groupName = $keys1[$i];
             $groups['group'] = $groupName;
-            foreach ($group as $teamName => &$team) {
+            $groups['matchday'] = '';
+            for ($j = 0; $j < count($keys2); $j++) {
+                $team =& $data[$keys1[$i]][$keys2[$j]];
                 if (is_array($team)) {
                     $this->initZeroCategory($team);
                     $this->calculateGoalDifference($team);
-                    $groups['standing'][] = $data[$groupName][$teamName];
+                    $groups['standing'][] = $team;
+
                 }
             }
+            $this->sortData($groups['standing']);
             $tableLeague[] = $groups;
         }
         return $tableLeague;
     }
 
-    private function sortData(&$table)
+    private function sortData(&$array)
     {
-        for ($i = 0; $i < count($table); $i++) {
-            for ($j = 0; $j < count($table[$i]['standing']) - 1; $j++) {
-                $maxIndex = $j;
-                for ($k = $j + 1; $k < count($table[$i]['standing']); $k++) {
-                    if ($table[$i]['standing'][$k]['points'] > $table[$i]['standing'][$maxIndex]['points']) {
-                        $maxIndex = $k;
-                    } elseif ($table[$i]['standing'][$k]['points'] == $table[$i]['standing'][$maxIndex]['points']) {
-                        if ($table[$i]['standing'][$k]['goals'] > $table[$i]['standing'][$maxIndex]['goals']) {
-                            $maxIndex = $k;
-                        } elseif ($table[$i]['standing'][$k]['goals'] == $table[$i]['standing'][$maxIndex]['goals']) {
-                            if ($table[$i]['standing'][$k]['goalDifference'] > $table[$i]['standing'][$maxIndex]['goalDifference']) {
-                                $maxIndex = $k;
-                            }
+        for ($i = 0; $i < count($array) - 1; $i++) {
+            $maxIndex = $i;
+            for ($j = $i + 1; $j < count($array); $j++) {
+                if ($array[$j]['points'] > $array[$maxIndex]['points']) {
+                    $maxIndex = $j;
+                } elseif ($array[$j]['points'] == $array[$maxIndex]['points']) {
+                    if ($array[$j]['goals'] > $array[$maxIndex]['goals']) {
+                        $maxIndex = $j;
+                    } elseif ($array[$j]['goals'] == $array[$maxIndex]['goals']) {
+                        if ($array[$j]['goalDifference'] > $array[$maxIndex]['goalDifference']) {
+                            $maxIndex = $j;
                         }
                     }
                 }
-                $temp = $table[$i]['standing'][$j];
-                $table[$i]['standing'][$j] = $table[$i]['standing'][$maxIndex];
-                $table[$i]['standing'][$maxIndex] = $temp;
-
             }
+            $temp = $array[$i];
+            $array[$i] = $array[$maxIndex];
+            $array[$j] = $temp;
 
         }
     }
