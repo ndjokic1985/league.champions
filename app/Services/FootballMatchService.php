@@ -28,19 +28,26 @@ class FootballMatchService
         $data = [];
         foreach ($matches as $match) {
             $this->calculatePlayedGames($data, $match);
-            $this->calculatePoints($data, $match);//
+            $this->calculatePoints($data, $match);
             $this->calculateGoals($data, $match);
-            $this->calculateWinLose($data, $match);//
-            $this->calculateDraw($data, $match);//
+            $this->calculateWinLose($data, $match);
+            $this->calculateDraw($data, $match);
             $this->calculateGoalsAgainst($data, $match);
+            $data[$match->group]['leagueTitle'] = $match->leagueTitle;
         }
-        foreach ($data as &$group) {
-            foreach ($group as &$team) {
+        $table = [];
+        foreach ($data as $groupName => &$group) {
+            $table['leagueTitle'] = $group['leagueTitle'];
+            $table['matchday'] = '';
+            $table['group'] = $groupName;
+            foreach ($group as $teamName => &$team) {
                 $this->initZeroCategory($team);
                 $this->calculateGoalDifference($team);
+                $table['standing'][] = $data[$groupName][$teamName];
             }
+
         }
-        return $data;
+        return $table;
     }
 
     private function initZeroCategory(&$team)
