@@ -17,12 +17,13 @@ class FootballMatches extends Migration
         Schema::create('football_matches', function (Blueprint $table) {
             $table->increments('id');
             $table->string('leagueTitle');
-            $table->tinyInteger('matchDay');
+            $table->tinyInteger('matchday');
             $table->string('group');
             $table->string('homeTeam');
             $table->string('awayTeam');
             $table->dateTime('kickoffAt');
             $table->string('score');
+            $table->timestamps();
         });
     }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\FootballMatchService;
 use Illuminate\Http\Request;
+use App\Services\FootballMatchService;
 use App\Http\Resources\FootballMatch as FootballMatchResource;
 
 class FootballMatchController extends Controller
@@ -27,26 +27,17 @@ class FootballMatchController extends Controller
         return FootballMatchResource::collection($tableResults);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * @param \App\Http\Requests\FootballMatchRequest $request
      *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function store(Request $request)
     {
-        //
+        $this->footballMatchService->create($request);
+        $tableResults = $this->footballMatchService->index();
+        return FootballMatchResource::collection($tableResults);
     }
 
     /**
@@ -74,12 +65,8 @@ class FootballMatchController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\FootballMatchRequest $request
+     * @param $id
      */
     public function update(Request $request, $id)
     {

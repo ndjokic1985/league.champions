@@ -24,8 +24,19 @@ class FootballMatchService
 
     public function create(Request $request)
     {
-        $attributes = $request->all();
-        return $this->footballMatchRepository->create($attributes);
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $destinationPath = 'uploads';
+            $file->move($destinationPath, $file->getClientOriginalName());
+            $content = file_get_contents($destinationPath . '/' . $file->getClientOriginalName());
+            $matches = json_decode($content, true);
+            foreach ($matches as $match) {
+                $this->footballMatchRepository->create($match);
+            }
+        } elseif ($request->all()) {
+            $this->footballMatchRepository->create($request->all());
+        }
+
     }
 
     public function update(Request $request, $id)
@@ -38,4 +49,5 @@ class FootballMatchService
     {
         $this->footballMatchRepository->show($id);
     }
+
 }

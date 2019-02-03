@@ -9,7 +9,7 @@ class FootballMatch extends Model
 
     protected $fillable = [
         'leagueTitle',
-        'matchDay',
+        'matchday',
         'group',
         'homeTeam',
         'awayTeam',
