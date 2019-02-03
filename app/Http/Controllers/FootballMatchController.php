@@ -24,7 +24,7 @@ class FootballMatchController extends Controller
     public function index()
     {
         $tableResults = $this->footballMatchService->index();
-        return FootballMatchResource::collection($tableResults);
+        return json_encode($tableResults);
     }
 
 

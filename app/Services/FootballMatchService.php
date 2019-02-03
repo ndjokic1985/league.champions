@@ -20,15 +20,42 @@ class FootballMatchService
     public function index()
     {
         $matches = $this->footballMatchRepository->all();
+        return $this->createLeagueTable($matches);
+    }
+
+    private function createLeagueTable($matches)
+    {
         $data = [];
         foreach ($matches as $match) {
             $this->calculatePlayedGames($data, $match);
-            $this->calculatePoints($data, $match);
+            $this->calculatePoints($data, $match);//
             $this->calculateGoals($data, $match);
-            $this->calculateWinLose($data, $match);
-            $this->calculateDraw($data, $match);
+            $this->calculateWinLose($data, $match);//
+            $this->calculateDraw($data, $match);//
+            $this->calculateGoalsAgainst($data, $match);
+        }
+        foreach ($data as &$group) {
+            foreach ($group as &$team) {
+                $this->initZeroCategory($team);
+                $this->calculateGoalDifference($team);
+            }
         }
         return $data;
+    }
+
+    private function initZeroCategory(&$team)
+    {
+        $categories = ['draw', 'win', 'lose', 'points'];
+        foreach ($categories as $category) {
+            if (!isset($team[$category])) {
+                $team[$category] = 0;
+            }
+        }
+    }
+
+    private function calculateGoalDifference(&$team)
+    {
+        $team['goalDifference'] = $team['goals'] - $team['goalsAgainst'];
     }
 
     private function calculatePlayedGames(&$data, $match)
@@ -38,9 +65,13 @@ class FootballMatchService
 
     }
 
-    private function calculateGoalsAgainst()
+    private function calculateGoalsAgainst(&$data, $match)
     {
-
+        $scoreArray = explode(':', $match->score);
+        $this->coreCalculation($data, ['awayTeam'], $match, 'goalsAgainst',
+            $scoreArray[0]);
+        $this->coreCalculation($data, ['homeTeam'], $match, 'goalsAgainst',
+            $scoreArray[1]);
     }
 
     private function calculateGoals(&$data, $match)
@@ -96,6 +127,7 @@ class FootballMatchService
         int $points
     ) {
         foreach ($teams as $team) {
+            $data[$match->group][$match->$team]['team'] = $match->$team;
             if (isset($data[$match->group][$match->$team][$label])) {
                 $data[$match->group][$match->$team][$label] += $points;
             } else {
@@ -132,5 +164,6 @@ class FootballMatchService
     {
         $this->footballMatchRepository->show($id);
     }
+
 
 }
