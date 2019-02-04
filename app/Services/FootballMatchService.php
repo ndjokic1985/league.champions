@@ -52,24 +52,24 @@ class FootballMatchService
         $groups = [];
         $tableLeague = [];
         $keys1 = array_keys($data);
-
         for ($i = 0; $i < count($keys1); $i++) {
             $keys2 = array_keys($data[$keys1[$i]]);
-            $group =& $data[$keys1[$i]];
-            $groups['leagueTitle'] = $group['leagueTitle'];
-            $groupName = $keys1[$i];
-            $groups['group'] = $groupName;
-            $groups['matchday'] = '';
+            $teams = [];
             for ($j = 0; $j < count($keys2); $j++) {
                 $team =& $data[$keys1[$i]][$keys2[$j]];
                 if (is_array($team)) {
                     $this->initZeroCategory($team);
                     $this->calculateGoalDifference($team);
-                    $groups['standing'][] = $team;
-
+                    $teams[] = $team;
                 }
             }
-            $this->sortData($groups['standing']);
+            $this->sortData($teams);
+            $group =& $data[$keys1[$i]];
+            $groups['leagueTitle'] = $group['leagueTitle'];
+            $groups['matchday'] = $teams[0]['playedGames'];
+            $groupName = $keys1[$i];
+            $groups['group'] = $groupName;
+            $groups['standing'] = $teams;
             $tableLeague[] = $groups;
         }
         return $tableLeague;
@@ -77,25 +77,27 @@ class FootballMatchService
 
     private function sortData(&$array)
     {
-        for ($i = 0; $i < count($array) - 1; $i++) {
-            $maxIndex = $i;
-            for ($j = $i + 1; $j < count($array); $j++) {
-                if ($array[$j]['points'] > $array[$maxIndex]['points']) {
-                    $maxIndex = $j;
-                } elseif ($array[$j]['points'] == $array[$maxIndex]['points']) {
-                    if ($array[$j]['goals'] > $array[$maxIndex]['goals']) {
-                        $maxIndex = $j;
-                    } elseif ($array[$j]['goals'] == $array[$maxIndex]['goals']) {
-                        if ($array[$j]['goalDifference'] > $array[$maxIndex]['goalDifference']) {
-                            $maxIndex = $j;
+        $s = 0;
+        for ($m = 0; $m < count($array); $m++) {
+            $maxIndex = $m;
+            for ($n = $m+1; $n < count($array)-1; $n++) {
+                if ($array[$n]['points'] > $array[$maxIndex]['points']) {
+                    $maxIndex = $n;
+                } elseif ($array[$n]['points'] == $array[$maxIndex]['points']) {
+                    if ($array[$n]['goals'] > $array[$maxIndex]['goals']) {
+                        $maxIndex = $n;
+                    } elseif ($array[$n]['goals'] == $array[$maxIndex]['goals']) {
+                        if ($array[$n]['goalDifference'] > $array[$maxIndex]['goalDifference']) {
+                            $maxIndex = $n;
                         }
                     }
                 }
             }
-            $temp = $array[$i];
-            $array[$i] = $array[$maxIndex];
-            $array[$j] = $temp;
 
+            $temp = $array[$m];
+            $array[$m] = $array[$maxIndex];
+            $array[$maxIndex] = $temp;
+            $array[$maxIndex]['rank'] = ++$s;
         }
     }
 
