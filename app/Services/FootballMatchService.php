@@ -79,7 +79,8 @@ class FootballMatchService {
       for ($j = 0; $j < count($keys2); $j++) {
         $team =& $data[$keys1[$i]][$keys2[$j]];
         if (is_array($team)) {
-          $teams[] = $team;
+            $team['goalDifference'] = $team['goals'] - $team['goalsAgainst'];
+            $teams[] = $team;
         }
       }
       $this->sortTeams($teams);
@@ -146,7 +147,6 @@ class FootballMatchService {
         $data[$heading] = $team[$heading];
       }
     }
-    $data['goalDifference'] = $data['goals'] - $data['goalsAgainst'];
     return $data;
   }
 
@@ -227,7 +227,7 @@ class FootballMatchService {
   }
 
   /**
-   * Create match/es with file or single input.
+   * Create match/es from file or single input.
    *
    * @param \Illuminate\Http\Request $request
    *   Http Request $request parameters.
@@ -254,8 +254,10 @@ class FootballMatchService {
     return $this->footballMatchRepository->update($id, $attributes);
   }
 
-  public function show($id) {
-    $this->footballMatchRepository->show($id);
+  public function show($group) {
+    $matches = $this->footballMatchRepository->show($group);
+    $table = $this->getLeagueTable($matches);
+    return $table;
   }
 
 }

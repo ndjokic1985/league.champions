@@ -49,8 +49,8 @@ class FootballMatchRepository {
     return $this->footBallMatch->find($id)->update($attributes);
   }
 
-  public function show($id) {
-    return $this->footBallMatch->find($id);
+  public function show($group) {
+    return $this->footBallMatch->where('group',$group)->get();
   }
 
 }

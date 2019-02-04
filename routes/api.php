@@ -28,6 +28,6 @@ Route::get('leagueTable/{group}', 'FootballMatchController@show');
 
 Route::post('footballMatch', 'FootballMatchController@store');
 
-// Update match
 
-Route::put('footballMatch/{id}', 'FootballMatchController@update');
+// List all match/es
+Route::get('footballMatches', 'MatchResultController@index');

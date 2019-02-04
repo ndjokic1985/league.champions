@@ -53,11 +53,10 @@ class FootballMatchController extends Controller {
     return json_encode($tableResults);
   }
 
-  /**
-   * @param $id
-   */
-  public function show($id) {
-    //
+
+  public function show($group) {
+    $tableResults=$this->footballMatchService->show($group);
+    return json_encode($tableResults);
   }
   
   /**
