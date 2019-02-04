@@ -80,7 +80,7 @@ class FootballMatchService
         $s = 0;
         for ($m = 0; $m < count($array); $m++) {
             $maxIndex = $m;
-            for ($n = $m+1; $n < count($array)-1; $n++) {
+            for ($n = $m + 1; $n < count($array); $n++) {
                 if ($array[$n]['points'] > $array[$maxIndex]['points']) {
                     $maxIndex = $n;
                 } elseif ($array[$n]['points'] == $array[$maxIndex]['points']) {
@@ -94,10 +94,11 @@ class FootballMatchService
                 }
             }
 
-            $temp = $array[$m];
-            $array[$m] = $array[$maxIndex];
-            $array[$maxIndex] = $temp;
-            $array[$maxIndex]['rank'] = ++$s;
+            $temp = $array[$maxIndex];
+            $array[$maxIndex] = $array[$m];
+            $array[$m] = $temp;
+            $array[$m]['rank'] = ++$s;
+
         }
     }
 
@@ -186,6 +187,7 @@ class FootballMatchService
         int $points
     ) {
         foreach ($teams as $team) {
+            $data[$match->group][$match->$team]['rank']=1;
             $data[$match->group][$match->$team]['team'] = $match->$team;
             if (isset($data[$match->group][$match->$team][$label])) {
                 $data[$match->group][$match->$team][$label] += $points;
