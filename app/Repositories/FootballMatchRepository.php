@@ -4,34 +4,53 @@ namespace App\Repositories;
 
 use App\FootballMatch;
 
-class FootballMatchRepository
-{
+/**
+ * Class FootballMatchRepository.
+ *
+ * @package App\Repositories
+ */
+class FootballMatchRepository {
 
-    protected $footBallMatch;
+  protected $footBallMatch;
 
-    public function __construct(FootballMatch $footBallMatch)
-    {
-        $this->footBallMatch = $footBallMatch;
-    }
+  /**
+   * FootballMatchRepository constructor.
+   *
+   * @param \App\FootballMatch $footBallMatch.
+   */
+  public function __construct(FootballMatch $footBallMatch) {
+    $this->footBallMatch = $footBallMatch;
+  }
 
-    public function create($attributes)
-    {
-        return $this->footBallMatch->create($attributes);
-    }
+  /**
+   * Create match/es.
+   *
+   * @param $attributes
+   *   Match/es parameter.
+   *
+   * @return mixed
+   *   Return result of creation.
+   */
+  public function create($attributes) {
+    return $this->footBallMatch->create($attributes);
+  }
 
-    public function all()
-    {
-        return $this->footBallMatch->all();
-    }
+  /**
+   * Get all matches.
+   *
+   * @return \App\FootballMatch[]|\Illuminate\Database\Eloquent\Collection
+   *   Get collection matches.
+   */
+  public function all() {
+    return $this->footBallMatch->all();
+  }
 
-    public function update($id, $attributes)
-    {
-        return $this->footBallMatch->find($id)->update($attributes);
-    }
+  public function update($id, $attributes) {
+    return $this->footBallMatch->find($id)->update($attributes);
+  }
 
-    public function show($id)
-    {
-        return $this->footBallMatch->find($id);
-    }
+  public function show($id) {
+    return $this->footBallMatch->find($id);
+  }
 
 }

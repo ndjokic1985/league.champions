@@ -4,18 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FootballMatch extends Model
-{
+class FootballMatch extends Model {
 
-    protected $fillable = [
-        'leagueTitle',
-        'matchday',
-        'group',
-        'homeTeam',
-        'awayTeam',
-        'kickoffAt',
-        'score',
-    ];
+  protected $fillable = [
+    'leagueTitle',
+    'matchday',
+    'group',
+    'homeTeam',
+    'awayTeam',
+    'kickoffAt',
+    'score',
+  ];
 
-    protected $table = 'football_matches';
+  protected $table = 'football_matches';
 }

@@ -6,82 +6,66 @@ use Illuminate\Http\Request;
 use App\Services\FootballMatchService;
 use App\Http\Resources\FootballMatch as FootballMatchResource;
 
-class FootballMatchController extends Controller
-{
+/**
+ * Class FootballMatchController.
+ *
+ * @package App\Http\Controllers
+ */
+class FootballMatchController extends Controller {
 
-    protected $footballMatchService;
+  protected $footballMatchService;
 
-    public function __construct(FootballMatchService $footballMatchService)
-    {
-        $this->footballMatchService = $footballMatchService;
-    }
+  /**
+   * FootballMatchController constructor.
+   *
+   * @param \App\Services\FootballMatchService $footballMatchService
+   *   DI FootballMatchService $footballMatchService parameter.
+   */
+  public function __construct(FootballMatchService $footballMatchService) {
+    $this->footballMatchService = $footballMatchService;
+  }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $tableResults = $this->footballMatchService->index();
-        return json_encode($tableResults);
-    }
+  /**
+   * Get a league table from service and encode array into json data.
+   *
+   * @return \Illuminate\Http\Response
+   *   Return json response.
+   */
+  public function index() {
+    $tableResults = $this->footballMatchService->index();
+    return json_encode($tableResults);
+  }
 
 
-    /**
-     * @param \App\Http\Requests\FootballMatchRequest $request
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function store(Request $request)
-    {
-        $this->footballMatchService->create($request);
-        $tableResults = $this->footballMatchService->index();
-        return json_encode($tableResults);
-    }
+  /**
+   * Send incoming request to service processing, get league table and encode
+   * array into json data.
+   *
+   * @param \Illuminate\Http\Request $request
+   *   Incoming Request $request parameter.
+   *
+   * @return false|string
+   *   Return json response.
+   */
+  public function store(Request $request) {
+    $this->footballMatchService->create($request);
+    $tableResults = $this->footballMatchService->index();
+    return json_encode($tableResults);
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+  /**
+   * @param $id
+   */
+  public function show($id) {
+    //
+  }
+  
+  /**
+   * @param \Illuminate\Http\Request $request
+   * @param $id
+   */
+  public function update(Request $request, $id) {
+    //
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * @param \App\Http\Requests\FootballMatchRequest $request
-     * @param $id
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
