@@ -16,7 +16,7 @@ class FootballMatchRepository {
   /**
    * FootballMatchRepository constructor.
    *
-   * @param \App\FootballMatch $footBallMatch.
+   * @param \App\FootballMatch $footBallMatch .
    */
   public function __construct(FootballMatch $footBallMatch) {
     $this->footBallMatch = $footBallMatch;
@@ -43,14 +43,6 @@ class FootballMatchRepository {
    */
   public function all() {
     return $this->footBallMatch->all();
-  }
-
-  public function update($id, $attributes) {
-    return $this->footBallMatch->find($id)->update($attributes);
-  }
-
-  public function show($group) {
-    return $this->footBallMatch->where('group',$group)->get();
   }
 
 }

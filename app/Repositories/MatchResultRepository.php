@@ -23,7 +23,7 @@ class MatchResultRepository {
   }
 
   /**
-   * Get all matches or filter by kickoff date,team and group.
+   * Get all league matches or filter by kickoff date,team and group.
    *
    * @return \App\FootballMatch[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
    *   Get matched result.
@@ -56,6 +56,20 @@ class MatchResultRepository {
       }
       return $query->get();
     }
+  }
+
+  /**
+   * Update match.
+   *
+   * @param $attributes
+   *   Attributes parameter.
+   *
+   * @return mixed
+   *   Return result of execution.
+   */
+  public function update($attributes) {
+    return $this->footBallMatch->findOrFail($attributes['id'])
+      ->update($attributes);
   }
 
 }

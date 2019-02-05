@@ -27,4 +27,10 @@ class MatchResultService {
     return $this->matchResultRepository->index($filters);
   }
 
+  public function update($attributes) {
+    if (isset($attributes['id'])) {
+      $this->matchResultRepository->update($attributes);
+    }
+  }
+
 }

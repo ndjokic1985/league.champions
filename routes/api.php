@@ -29,5 +29,8 @@ Route::get('leagueTable/{group}', 'FootballMatchController@show');
 Route::post('footballMatch', 'FootballMatchController@store');
 
 
-// List of matches.
+// List of all/filtered matches.
 Route::get('footballMatches', 'MatchResultController@index');
+
+// Update match/es.
+Route::put('footballMatch', 'MatchResultController@update');
