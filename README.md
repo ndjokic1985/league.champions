@@ -59,8 +59,9 @@ php artisan migrate
 
 ## How to use API
 ### You can test api with Postman software
+* [Postman software download](https://www.getpostman.com/downloads/)
 
-1.API endpoint for taking single/multiple match result/s along with one/more league group/s
+1.API endpoint for taking single/multiple league match result/s along with one/more league group/s:
 
 ```
 Method name: POST 
@@ -88,36 +89,42 @@ Method name: GET
 URL: {server_name}/api/leagueTable/{groupname} (See Screenshot 4)
 ```
 * [Screenshot 4](https://i.imgur.com/V37Fpge.png) - GET method
-## Deployment
 
-Add additional notes about how to deploy this on a live system
+4.API endpoint for retrieving all league matches results,filtering
+league matches by date range, group and team:
+
+```
+Method name: GET 
+URL: {server_name}/api/footballMatches (See Screenshot 5)
+URL: {server_name}/api/footballMatches?group=B&team=Lazio&from=20.09.2017&to=20.10.2017
+You have next query string parameters available:
+- group
+- team
+- from
+- to
+On Screenshot 6 you can see how url looks like.
+
+```
+* [Screenshot 5](https://i.imgur.com/IaAQ1yE.png) - GET method (all matches results)
+* [Screenshot 6](https://i.imgur.com/GhCEgTo.png) - GET method (all filtered matches results)
+
+5.API endpoint for taking single/multiple league match result/s along with one/more league group/s:
+
+```
+Method name: PUT 
+URL: {server_name}/api/footballMatch
+Content-type: application/x-www-form-urlencoded (See Screenshot 7)
+Content-type: application/json (See screenshot 8)
+```
+* [Screenshot 7](https://i.imgur.com/XJGlgHO.png)
+* [Screenshot 8](https://i.imgur.com/GKX4fEF.png)
+
+
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* LAMP - Linux, Apache, PHP, MYSql, PhpStorm
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+**Nikola Đokić** - **Project on github** -  [LeagueChampions](https://github.com/ndjokic1985/league.champions)
