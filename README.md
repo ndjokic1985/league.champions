@@ -59,14 +59,14 @@ php artisan migrate
 
 ## How to use API
 ### You can test api with Postman software
-* [Postman software download](https://www.getpostman.com/downloads/)
+* [Postman software download](https://www.getpostman.com/downloads)
 
 1.API endpoint for taking single/multiple league match result/s along with one/more league group/s:
 
 ```
 Method name: POST 
 URL: {server_name}/api/footballMatch
-form-data
+Content-type: form-data
 Body:
  1.Upload json file with postman,key name should be 'file' (See Screenshot 1)
  2.Enter key value pairs using postman.Key names should be equivalent to the db column name (See Screenshot 2 )
@@ -108,7 +108,9 @@ On Screenshot 6 you can see how url looks like.
 * [Screenshot 5](https://i.imgur.com/IaAQ1yE.png) - GET method (all matches results)
 * [Screenshot 6](https://i.imgur.com/GhCEgTo.png) - GET method (all filtered matches results)
 
-5.API endpoint for taking single/multiple league match result/s along with one/more league group/s:
+5.API endpoint for updating one/more league matches results:
+Note: You must know the match 'id' from database for the particular league matches.
+See the below screenshots for further information.
 
 ```
 Method name: PUT 
