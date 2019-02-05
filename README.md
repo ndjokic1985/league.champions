@@ -109,7 +109,8 @@ On Screenshot 6 you can see how url looks like.
 * [Screenshot 6](https://i.imgur.com/GhCEgTo.png) - GET method (all filtered matches results)
 
 5.API endpoint for updating one/more league matches results:
-Note: You must know the match 'id' from database for the particular league matches.
+
+Note: You must know the league match 'id' from database you want to update.
 See the below screenshots for further information.
 
 ```
@@ -125,7 +126,7 @@ Content-type: application/json (See screenshot 8)
 
 ## Built With
 
-* LAMP - Linux, Apache, PHP, MYSql, PhpStorm
+* LAMP - Linux, Apache, PHP, MYSQl, PhpStorm
 
 ## Authors
 
