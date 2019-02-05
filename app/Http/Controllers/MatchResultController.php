@@ -24,9 +24,10 @@ class MatchResultController extends Controller {
   }
 
   /**
-   * Display a listing of the resource.
+   * Return a list of resources.
    *
    * @return \Illuminate\Http\Response
+   *   Return json data.
    */
   public function index(Request $request) {
     $filters = $request->all();
@@ -34,8 +35,14 @@ class MatchResultController extends Controller {
     return json_encode($data);
   }
 
+  /**
+   * Pass request to service.
+   *
+   * @param \Illuminate\Http\Request $request
+   *   Request $request parameter.
+   */
   public function update(Request $request) {
-    $this->matchResultService->update($request->all());
+    $this->matchResultService->update($request);
   }
 
 }

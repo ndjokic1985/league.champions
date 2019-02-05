@@ -23,7 +23,7 @@ class FootballMatchRepository {
   }
 
   /**
-   * Create match/es.
+   * Create match.
    *
    * @param $attributes
    *   Match/es parameter.
@@ -36,13 +36,25 @@ class FootballMatchRepository {
   }
 
   /**
-   * Get all matches.
+   * Query all league matches.
    *
    * @return \App\FootballMatch[]|\Illuminate\Database\Eloquent\Collection
-   *   Get collection matches.
+   *   Return list.
    */
   public function all() {
     return $this->footBallMatch->all();
   }
 
+  /**
+   * Query league matches based on group name.
+   *
+   * @param $group
+   *   Group name parameter like 'A','B'.
+   *
+   * @return mixed
+   *   Return list.
+   */
+  public function show($group) {
+    return $this->footBallMatch->where('group', $group)->get();
+  }
 }

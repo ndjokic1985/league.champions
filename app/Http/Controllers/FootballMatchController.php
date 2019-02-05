@@ -38,8 +38,7 @@ class FootballMatchController extends Controller {
 
 
   /**
-   * Send incoming request to service processing, get league table and encode
-   * array into json data.
+   * Pass league match to service,get league table and return json response.
    *
    * @param \Illuminate\Http\Request $request
    *   Incoming Request $request parameter.
@@ -53,18 +52,19 @@ class FootballMatchController extends Controller {
     return json_encode($tableResults);
   }
 
-
+  /**
+   * Show league table by group name.
+   *
+   * @param $group
+   *   Group name parameter.
+   *
+   * @return false|string
+   *   Return json response.
+   */
   public function show($group) {
-    $tableResults=$this->footballMatchService->show($group);
+    $tableResults = $this->footballMatchService->show($group);
     return json_encode($tableResults);
   }
-  
-  /**
-   * @param \Illuminate\Http\Request $request
-   * @param $id
-   */
-  public function update(Request $request, $id) {
-    //
-  }
+
 
 }

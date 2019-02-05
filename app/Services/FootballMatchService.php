@@ -231,7 +231,7 @@ class FootballMatchService {
    * Create match/es from file or single input.
    *
    * @param \Illuminate\Http\Request $request
-   *   Http Request $request parameters.
+   *   Request $request parameter.
    */
   public function create(Request $request) {
     if ($request->hasFile('file')) {
@@ -250,11 +250,15 @@ class FootballMatchService {
 
   }
 
-  public function update(Request $request, $id) {
-    $attributes = $request->all();
-    return $this->footballMatchRepository->update($id, $attributes);
-  }
-
+  /**
+   * Get league table by group name.
+   *
+   * @param $group
+   *   Group name parameter.
+   *
+   * @return array
+   *   Return league table.
+   */
   public function show($group) {
     $matches = $this->footballMatchRepository->show($group);
     $table = $this->getLeagueTable($matches);
