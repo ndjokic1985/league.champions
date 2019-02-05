@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class FootballMatch.
+ *
+ * @package App
+ */
 class FootballMatch extends Model {
 
   protected $fillable = [

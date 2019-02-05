@@ -79,8 +79,9 @@ class FootballMatchService {
       for ($j = 0; $j < count($keys2); $j++) {
         $team =& $data[$keys1[$i]][$keys2[$j]];
         if (is_array($team)) {
-            $team['goalDifference'] = $team['goals'] - $team['goalsAgainst'];
-            $teams[] = $team;
+          $team['goalDifference'] = $team['goals'] - $team['goalsAgainst'];
+          $team['points'] = (isset($team['points'])) ? $team['points'] : 0;
+          $teams[] = $team;
         }
       }
       $this->sortTeams($teams);
