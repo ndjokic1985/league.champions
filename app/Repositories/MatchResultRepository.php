@@ -29,8 +29,7 @@ class MatchResultRepository {
    *   Get matched result.
    */
   public function index($filters) {
-    $noFilters = (!isset($filters['team']) && !isset($filters['group']) && !isset($filters['from']) && !isset($filters['to']));
-
+    $noFilters = (!isset($filters['team']) && !isset($filters['group']) && (!isset($filters['from']) || !isset($filters['to'])));
     if ($noFilters) {
       return $this->footBallMatch->all();
     }
