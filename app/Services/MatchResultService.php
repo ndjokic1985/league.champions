@@ -14,8 +14,8 @@ class MatchResultService {
         $this->matchResultRepository = $matchResultRepository;
     }
 
-    public function index() {
-        return $this->matchResultRepository->index();
+    public function index($filters) {
+        return $this->matchResultRepository->index($filters);
     }
 
 }
